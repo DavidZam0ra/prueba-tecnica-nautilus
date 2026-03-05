@@ -2,7 +2,15 @@ const ListTasksUseCase = require('../../../src/application/task/ListTasksUseCase
 const Task = require('../../../src/domain/entities/Task');
 
 describe('ListTasksUseCase', () => {
-  /** @type {jest.Mocked<import('../../../src/domain/repositories/TaskRepository')>} */
+  /**
+   * @type {{
+   *   save: jest.Mock,
+   *   findAllByOwner: jest.Mock,
+   *   findById: jest.Mock,
+   *   update: jest.Mock,
+   *   deleteById: jest.Mock
+   * }}
+   */
   let mockTaskRepository;
 
   beforeEach(() => {
@@ -15,7 +23,7 @@ describe('ListTasksUseCase', () => {
     };
   });
 
-  it('debe devolver las tareas del usuario', async () => {
+  it('Should return the tasks of the user', async () => {
     const ownerId = 'user-1';
     const tasks = [
       new Task({ id: 't1', title: 'Tarea A', responsible: 'Dev', completed: false, createdAt: new Date(), ownerId }),
@@ -30,7 +38,7 @@ describe('ListTasksUseCase', () => {
     expect(result).toHaveLength(2);
   });
 
-  it('debe devolver una lista vacía si el usuario no tiene tareas', async () => {
+  it('Should return an empty list if the user has no tasks', async () => {
     mockTaskRepository.findAllByOwner.mockResolvedValue([]);
 
     const useCase = new ListTasksUseCase(mockTaskRepository);

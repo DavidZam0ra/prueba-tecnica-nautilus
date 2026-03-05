@@ -2,7 +2,15 @@ const CreateTaskUseCase = require('../../../src/application/task/CreateTaskUseCa
 const Task = require('../../../src/domain/entities/Task');
 
 describe('CreateTaskUseCase', () => {
-  /** @type {jest.Mocked<import('../../../src/domain/repositories/TaskRepository')>} */
+  /**
+   * @type {{
+   *   save: jest.Mock,
+   *   findAllByOwner: jest.Mock,
+   *   findById: jest.Mock,
+   *   update: jest.Mock,
+   *   deleteById: jest.Mock
+   * }}
+   */
   let mockTaskRepository;
 
   beforeEach(() => {
@@ -15,7 +23,7 @@ describe('CreateTaskUseCase', () => {
     };
   });
 
-  it('debe crear y persistir una tarea correctamente', async () => {
+  it('Should create and persist a task correctly', async () => {
     const dto = {
       title: 'Configurar CI/CD',
       description: 'Usar GitHub Actions',
@@ -35,7 +43,7 @@ describe('CreateTaskUseCase', () => {
     expect(result.completed).toBe(false);
   });
 
-  it('debe pasar el ownerId correcto al repositorio', async () => {
+  it('Should pass the correct ownerId to the repository', async () => {
     const dto = {
       title: 'Test',
       responsible: 'Dev',

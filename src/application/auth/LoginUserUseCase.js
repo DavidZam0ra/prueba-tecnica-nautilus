@@ -12,12 +12,12 @@ const UserRepository = require('../../domain/repositories/UserRepository');
 
 /**
  * @typedef {Object} LoginResult
- * @property {string} token - JWT firmado
+ * @property {string} token - Signed JWT
  * @property {{ id: string, name: string, email: string }} user
  */
 
 /**
- * Caso de uso: Autenticar un usuario y devolver un JWT.
+ * Use case: authenticate a user and return a JWT.
  */
 class LoginUserUseCase {
   /**
@@ -28,7 +28,7 @@ class LoginUserUseCase {
   }
 
   /**
-   * Valida las credenciales y devuelve un JWT si son correctas.
+   * Validates user credentials and returns a JWT on success.
    * @param {LoginDTO} dto
    * @returns {Promise<LoginResult>}
    */
@@ -36,28 +36,28 @@ class LoginUserUseCase {
     const user = await this.userRepository.findByEmail(email);
 
     if (!user) {
-      const error = new Error('Credenciales inválidas');
-      // @ts-ignore
-      error.statusCode = 401;
-      throw error;
+      throw new Error('Invalid credentials');
     }
 
     const passwordMatch = await bcrypt.compare(password, user.password);
 
     if (!passwordMatch) {
-      const error = new Error('Credenciales inválidas');
-      // @ts-ignore
-      error.statusCode = 401;
-      throw error;
+      throw new Error('Invalid credentials');
     }
 
+    /** @type {import('jsonwebtoken').Secret} */
     const secret = process.env.JWT_SECRET || 'default_secret';
-    const expiresIn = process.env.JWT_EXPIRES_IN || '1h';
+    /** @type {import('jsonwebtoken').SignOptions} */
+    const signOptions = {
+      expiresIn: process.env.JWT_EXPIRES_IN
+        ? /** @type {import('jsonwebtoken').SignOptions['expiresIn']} */ (process.env.JWT_EXPIRES_IN)
+        : 3600,
+    };
 
     const token = jwt.sign(
       { userId: user.id, email: user.email },
       secret,
-      { expiresIn }
+      signOptions
     );
 
     return {

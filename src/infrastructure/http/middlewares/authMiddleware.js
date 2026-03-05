@@ -9,8 +9,8 @@ const jwt = require('jsonwebtoken');
  */
 
 /**
- * Middleware que verifica el token JWT presente en la cabecera Authorization.
- * Si el token es válido, añade `req.user` con el payload decodificado.
+ * Verifies JWT from the Authorization header.
+ * If valid, it appends `user` to the request object.
  * @param {import('express').Request} req
  * @param {import('express').Response} res
  * @param {import('express').NextFunction} next
@@ -19,7 +19,7 @@ function authMiddleware(req, res, next) {
   const authHeader = req.headers.authorization;
 
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ message: 'Token de autenticación no proporcionado' });
+    return res.status(401).json({ message: 'Authentication token is missing' });
   }
 
   const token = authHeader.split(' ')[1];
@@ -27,11 +27,10 @@ function authMiddleware(req, res, next) {
   try {
     const secret = process.env.JWT_SECRET || 'default_secret';
     const payload = /** @type {JwtPayload} */ (jwt.verify(token, secret));
-    // @ts-ignore — extendemos req con el usuario autenticado
-    req.user = payload;
+    /** @type {import('express').Request & { user: JwtPayload }} */ (req).user = payload;
     next();
   } catch {
-    return res.status(401).json({ message: 'Token inválido o expirado' });
+    return res.status(401).json({ message: 'Token is invalid or expired' });
   }
 }
 

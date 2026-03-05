@@ -12,7 +12,13 @@ jest.mock('jsonwebtoken', () => ({
 const bcrypt = require('bcryptjs');
 
 describe('LoginUserUseCase', () => {
-  /** @type {jest.Mocked<import('../../../src/domain/repositories/UserRepository')>} */
+  /**
+   * @type {{
+   *   save: jest.Mock,
+   *   findByEmail: jest.Mock,
+   *   findById: jest.Mock
+   * }}
+   */
   let mockUserRepository;
 
   const existingUser = new User({
@@ -31,10 +37,9 @@ describe('LoginUserUseCase', () => {
     jest.clearAllMocks();
   });
 
-  it('debe devolver un token JWT si las credenciales son correctas', async () => {
+  it('Should return a JWT token if the credentials are correct', async () => {
     mockUserRepository.findByEmail.mockResolvedValue(existingUser);
-    // @ts-ignore
-    bcrypt.compare.mockResolvedValue(true);
+    /** @type {jest.Mock} */ (bcrypt.compare).mockResolvedValue(true);
 
     const useCase = new LoginUserUseCase(mockUserRepository);
     const result = await useCase.execute({ email: 'test@test.com', password: 'correct' });
@@ -43,7 +48,7 @@ describe('LoginUserUseCase', () => {
     expect(result.user.email).toBe('test@test.com');
   });
 
-  it('debe lanzar error 401 si el usuario no existe', async () => {
+  it('Should throw an error 401 if the user does not exist', async () => {
     mockUserRepository.findByEmail.mockResolvedValue(null);
 
     const useCase = new LoginUserUseCase(mockUserRepository);
@@ -51,23 +56,20 @@ describe('LoginUserUseCase', () => {
     await expect(
       useCase.execute({ email: 'noexiste@test.com', password: 'pass' })
     ).rejects.toMatchObject({
-      statusCode: 401,
-      message: 'Credenciales inválidas',
+      message: 'Invalid credentials',
     });
   });
 
-  it('debe lanzar error 401 si la contraseña es incorrecta', async () => {
+  it('Should throw an error 401 if the password is incorrect', async () => {
     mockUserRepository.findByEmail.mockResolvedValue(existingUser);
-    // @ts-ignore
-    bcrypt.compare.mockResolvedValue(false);
+    /** @type {jest.Mock} */ (bcrypt.compare).mockResolvedValue(false);
 
     const useCase = new LoginUserUseCase(mockUserRepository);
 
     await expect(
       useCase.execute({ email: 'test@test.com', password: 'wrong' })
     ).rejects.toMatchObject({
-      statusCode: 401,
-      message: 'Credenciales inválidas',
+      message: 'Invalid credentials',
     });
   });
 });

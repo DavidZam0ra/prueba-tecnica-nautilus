@@ -3,17 +3,17 @@
 const mongoose = require('mongoose');
 
 /**
- * Establece la conexión con MongoDB.
- * @param {string} uri - URI de conexión de MongoDB
+ * Opens the MongoDB connection.
+ * @param {string} uri - MongoDB connection URI
  * @returns {Promise<void>}
  */
 async function connectToDatabase(uri) {
   await mongoose.connect(uri);
-  console.log('Conexión a MongoDB establecida');
+  console.log('MongoDB connection established');
 }
 
 /**
- * Cierra la conexión con MongoDB.
+ * Closes the MongoDB connection.
  * @returns {Promise<void>}
  */
 async function disconnectFromDatabase() {

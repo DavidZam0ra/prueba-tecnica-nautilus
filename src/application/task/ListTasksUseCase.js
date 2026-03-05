@@ -4,7 +4,7 @@ const Task = require('../../domain/entities/Task');
 const TaskRepository = require('../../domain/repositories/TaskRepository');
 
 /**
- * Caso de uso: Listar todas las tareas de un usuario.
+ * Use case: list all tasks for a user.
  */
 class ListTasksUseCase {
   /**
@@ -15,7 +15,7 @@ class ListTasksUseCase {
   }
 
   /**
-   * Devuelve todas las tareas pertenecientes al usuario indicado.
+   * Returns all tasks that belong to the provided owner.
    * @param {string} ownerId
    * @returns {Promise<Task[]>}
    */

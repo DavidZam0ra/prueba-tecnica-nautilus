@@ -1,7 +1,7 @@
 {
   "name": "prueba-tecnica-nautilus",
   "version": "1.0.0",
-  "description": "API REST para gestión de tareas (to-do)",
+  "description": "API REST for task management (to-do)",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

@@ -12,8 +12,8 @@ const TaskRepository = require('../../domain/repositories/TaskRepository');
  */
 
 /**
- * Caso de uso: Crear una nueva tarea.
- * Recibe el repositorio por inyección de dependencias para desacoplarse de la infraestructura.
+ * Use case: create a new task.
+ * The repository is injected to keep the use case independent from infrastructure.
  */
 class CreateTaskUseCase {
   /**
@@ -24,7 +24,7 @@ class CreateTaskUseCase {
   }
 
   /**
-   * Ejecuta la creación de una tarea.
+   * Executes task creation.
    * @param {CreateTaskDTO} dto
    * @returns {Promise<Task>}
    */

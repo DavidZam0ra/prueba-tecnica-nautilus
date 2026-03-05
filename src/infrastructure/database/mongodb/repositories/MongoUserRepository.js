@@ -5,12 +5,12 @@ const UserRepository = require('../../../../domain/repositories/UserRepository')
 const UserModel = require('../models/UserModel');
 
 /**
- * Adaptador: implementación de UserRepository usando MongoDB/Mongoose.
+ * Adapter: UserRepository implementation using MongoDB/Mongoose.
  * @extends {UserRepository}
  */
 class MongoUserRepository extends UserRepository {
   /**
-   * Convierte un documento Mongoose en una entidad User del dominio.
+   * Maps a Mongoose document to a User domain entity.
    * @param {import('mongoose').Document & Record<string, any>} doc
    * @returns {User}
    */

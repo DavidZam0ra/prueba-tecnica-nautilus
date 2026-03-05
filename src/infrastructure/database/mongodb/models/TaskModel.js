@@ -6,7 +6,7 @@ const taskSchema = new mongoose.Schema(
   {
     title: {
       type: String,
-      required: [true, 'El título es obligatorio'],
+      required: [true, 'Title is required'],
       trim: true,
     },
     description: {
@@ -16,7 +16,7 @@ const taskSchema = new mongoose.Schema(
     },
     responsible: {
       type: String,
-      required: [true, 'El responsable es obligatorio'],
+      required: [true, 'Responsible is required'],
       trim: true,
     },
     completed: {

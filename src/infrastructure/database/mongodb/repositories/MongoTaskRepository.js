@@ -5,13 +5,13 @@ const TaskRepository = require('../../../../domain/repositories/TaskRepository')
 const TaskModel = require('../models/TaskModel');
 
 /**
- * Adaptador: implementación de TaskRepository usando MongoDB/Mongoose.
- * Transforma documentos Mongoose en entidades del dominio (Task) y viceversa.
+ * Adapter: TaskRepository implementation using MongoDB/Mongoose.
+ * Maps Mongoose documents to domain Task entities and back.
  * @extends {TaskRepository}
  */
 class MongoTaskRepository extends TaskRepository {
   /**
-   * Convierte un documento Mongoose en una entidad Task del dominio.
+   * Maps a Mongoose document to a Task domain entity.
    * @param {import('mongoose').Document & Record<string, any>} doc
    * @returns {Task}
    */
@@ -72,7 +72,7 @@ class MongoTaskRepository extends TaskRepository {
       { new: true }
     );
     if (!doc) {
-      throw new Error('Tarea no encontrada al intentar actualizar');
+      throw new Error('Task not found while updating');
     }
     return this._toEntity(doc);
   }

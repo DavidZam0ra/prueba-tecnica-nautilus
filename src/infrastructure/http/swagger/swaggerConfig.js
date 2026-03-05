@@ -9,12 +9,12 @@ const options = {
     info: {
       title: 'Nautilus Tasks API',
       version: '1.0.0',
-      description: 'API REST para gestión de tareas con arquitectura hexagonal. Autenticación mediante JWT.',
+      description: 'REST API for task management with hexagonal architecture and JWT authentication.',
     },
     servers: [
       {
         url: 'http://localhost:3000',
-        description: 'Servidor de desarrollo',
+        description: 'Development server',
       },
     ],
   },

@@ -12,11 +12,11 @@ const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/nautil
   try {
     await connectToDatabase(MONGODB_URI);
     app.listen(PORT, () => {
-      console.log(`Servidor escuchando en http://localhost:${PORT}`);
-      console.log(`Documentación Swagger en http://localhost:${PORT}/api-docs`);
+      console.log(`Server listening on http://localhost:${PORT}`);
+      console.log(`Swagger docs available at http://localhost:${PORT}/api-docs`);
     });
   } catch (err) {
-    console.error('Error al arrancar el servidor:', err);
+    console.error('Server startup error:', err);
     process.exit(1);
   }
 })();

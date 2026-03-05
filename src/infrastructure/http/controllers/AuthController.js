@@ -7,8 +7,8 @@ const MongoUserRepository = require('../../database/mongodb/repositories/MongoUs
 const userRepository = new MongoUserRepository();
 
 /**
- * Controlador HTTP para los endpoints de autenticación.
- * Instancia los casos de uso inyectando el repositorio MongoDB.
+ * HTTP controller for auth endpoints.
+ * It builds use cases by injecting the MongoDB repository.
  */
 const AuthController = {
   /**
@@ -23,7 +23,7 @@ const AuthController = {
       const useCase = new RegisterUserUseCase(userRepository);
       const user = await useCase.execute({ name, email, password });
       res.status(201).json({
-        message: 'Usuario registrado correctamente',
+        message: 'User registered successfully',
         user: { id: user.id, name: user.name, email: user.email },
       });
     } catch (err) {

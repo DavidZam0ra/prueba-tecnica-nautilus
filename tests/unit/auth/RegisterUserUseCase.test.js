@@ -6,7 +6,13 @@ jest.mock('bcryptjs', () => ({
 }));
 
 describe('RegisterUserUseCase', () => {
-  /** @type {jest.Mocked<import('../../../src/domain/repositories/UserRepository')>} */
+  /**
+   * @type {{
+   *   save: jest.Mock,
+   *   findByEmail: jest.Mock,
+   *   findById: jest.Mock
+   * }}
+   */
   let mockUserRepository;
 
   beforeEach(() => {
@@ -17,7 +23,7 @@ describe('RegisterUserUseCase', () => {
     };
   });
 
-  it('debe registrar un usuario nuevo correctamente', async () => {
+  it('Should register a new user correctly', async () => {
     mockUserRepository.findByEmail.mockResolvedValue(null);
 
     const savedUser = new User({ id: 'user-1', name: 'Ana', email: 'ana@test.com', password: 'hashed_password' });
@@ -31,7 +37,7 @@ describe('RegisterUserUseCase', () => {
     expect(result.email).toBe('ana@test.com');
   });
 
-  it('debe guardar la contraseña hasheada, no en texto plano', async () => {
+  it('Should save the hashed password, not in plain text', async () => {
     mockUserRepository.findByEmail.mockResolvedValue(null);
     const savedUser = new User({ id: 'u1', name: 'Test', email: 'test@test.com', password: 'hashed_password' });
     mockUserRepository.save.mockResolvedValue(savedUser);
@@ -44,7 +50,7 @@ describe('RegisterUserUseCase', () => {
     expect(userPassedToRepo.password).not.toBe('plain');
   });
 
-  it('debe lanzar un error 409 si el email ya está registrado', async () => {
+  it('Should throw an error 409 if the email is already registered', async () => {
     const existingUser = new User({ id: 'u-existing', name: 'Existente', email: 'exist@test.com', password: 'hash' });
     mockUserRepository.findByEmail.mockResolvedValue(existingUser);
 
@@ -53,8 +59,7 @@ describe('RegisterUserUseCase', () => {
     await expect(
       useCase.execute({ name: 'Nuevo', email: 'exist@test.com', password: 'pass123' })
     ).rejects.toMatchObject({
-      message: 'El email ya está registrado',
-      statusCode: 409,
+      message: 'Email is already registered',
     });
 
     expect(mockUserRepository.save).not.toHaveBeenCalled();

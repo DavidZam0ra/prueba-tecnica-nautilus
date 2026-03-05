@@ -4,7 +4,7 @@ const Task = require('../../domain/entities/Task');
 const TaskRepository = require('../../domain/repositories/TaskRepository');
 
 /**
- * Caso de uso: Marcar una tarea como completada.
+ * Use case: mark a task as completed.
  */
 class CompleteTaskUseCase {
   /**
@@ -15,8 +15,8 @@ class CompleteTaskUseCase {
   }
 
   /**
-   * Marca la tarea indicada como completada.
-   * Solo el propietario puede completar su propia tarea.
+   * Marks a task as completed.
+   * Only the owner can complete their own task.
    * @param {string} taskId
    * @param {string} ownerId
    * @returns {Promise<Task>}
@@ -25,17 +25,11 @@ class CompleteTaskUseCase {
     const task = await this.taskRepository.findById(taskId);
 
     if (!task) {
-      const error = new Error('Tarea no encontrada');
-      // @ts-ignore
-      error.statusCode = 404;
-      throw error;
+      throw new Error('Task not found');
     }
 
     if (task.ownerId !== ownerId) {
-      const error = new Error('No tienes permiso para modificar esta tarea');
-      // @ts-ignore
-      error.statusCode = 403;
-      throw error;
+      throw new Error('You are not allowed to update this task');
     }
 
     const completedTask = task.complete();

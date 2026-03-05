@@ -11,14 +11,14 @@ const router = Router();
  * @openapi
  * tags:
  *   name: Auth
- *   description: Endpoints de autenticación
+ *   description: Authentication endpoints
  */
 
 /**
  * @openapi
  * /api/auth/register:
  *   post:
- *     summary: Registrar un nuevo usuario
+ *     summary: Register a new user
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -30,29 +30,29 @@ const router = Router();
  *             properties:
  *               name:
  *                 type: string
- *                 example: Juan García
+ *                 example: John Doe
  *               email:
  *                 type: string
  *                 format: email
- *                 example: juan@example.com
+ *                 example: john@example.com
  *               password:
  *                 type: string
  *                 minLength: 6
- *                 example: secreto123
+ *                 example: secure123
  *     responses:
  *       201:
- *         description: Usuario registrado correctamente
+ *         description: User registered successfully
  *       409:
- *         description: El email ya está registrado
+ *         description: Email is already registered
  *       422:
- *         description: Errores de validación
+ *         description: Validation errors
  */
 router.post(
   '/register',
   [
-    body('name').notEmpty().withMessage('El nombre es obligatorio'),
-    body('email').isEmail().withMessage('Debe ser un email válido'),
-    body('password').isLength({ min: 6 }).withMessage('La contraseña debe tener al menos 6 caracteres'),
+    body('name').notEmpty().withMessage('Name is required'),
+    body('email').isEmail().withMessage('A valid email is required'),
+    body('password').isLength({ min: 6 }).withMessage('Password must be at least 6 characters long'),
   ],
   validateMiddleware,
   AuthController.register
@@ -62,7 +62,7 @@ router.post(
  * @openapi
  * /api/auth/login:
  *   post:
- *     summary: Iniciar sesión y obtener un JWT
+ *     summary: Sign in and get a JWT
  *     tags: [Auth]
  *     requestBody:
  *       required: true
@@ -75,13 +75,13 @@ router.post(
  *               email:
  *                 type: string
  *                 format: email
- *                 example: juan@example.com
+ *                 example: john@example.com
  *               password:
  *                 type: string
- *                 example: secreto123
+ *                 example: secure123
  *     responses:
  *       200:
- *         description: Login exitoso, devuelve el JWT
+ *         description: Successful login, returns JWT
  *         content:
  *           application/json:
  *             schema:
@@ -99,13 +99,13 @@ router.post(
  *                     email:
  *                       type: string
  *       401:
- *         description: Credenciales inválidas
+ *         description: Invalid credentials
  */
 router.post(
   '/login',
   [
-    body('email').isEmail().withMessage('Debe ser un email válido'),
-    body('password').notEmpty().withMessage('La contraseña es obligatoria'),
+    body('email').isEmail().withMessage('A valid email is required'),
+    body('password').notEmpty().withMessage('Password is required'),
   ],
   validateMiddleware,
   AuthController.login

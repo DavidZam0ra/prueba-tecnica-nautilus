@@ -20,15 +20,15 @@ app.use('/api/auth', authRoutes);
 app.use('/api/tasks', taskRoutes);
 
 /**
- * Ruta de health check.
+ * Health-check endpoint.
  * @openapi
  * /api/health:
  *   get:
- *     summary: Comprobar que el servidor está en línea
+ *     summary: Check that the server is online
  *     tags: [Health]
  *     responses:
  *       200:
- *         description: Servidor operativo
+ *         description: Server is running
  */
 app.get('/api/health', (_req, res) => {
   res.json({ status: 'ok' });

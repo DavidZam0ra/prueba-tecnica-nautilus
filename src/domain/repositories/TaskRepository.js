@@ -1,65 +1,58 @@
 // @ts-check
 
 /**
- * @fileoverview Puerto (interfaz) del repositorio de tareas.
- * Define el contrato que deben cumplir todos los adaptadores de persistencia de tareas.
+ * @fileoverview Task repository port (interface).
+ * Defines the contract that all task persistence adapters must implement.
  */
 
 const Task = require('../entities/Task');
 
 /**
- * Interfaz abstracta para el repositorio de tareas.
- * Las implementaciones concretas (adaptadores) deben extender esta clase
- * o implementar todos sus métodos.
+ * Abstract interface for task repositories.
  */
 class TaskRepository {
   /**
-   * Persiste una nueva tarea.
+   * Persists a new task.
    * @param {Task} task
    * @returns {Promise<Task>}
    */
-  // eslint-disable-next-line no-unused-vars
-  async save(task) {
+  async save(_task) {
     throw new Error('TaskRepository.save() must be implemented');
   }
 
   /**
-   * Devuelve todas las tareas de un usuario.
+   * Returns all tasks for a user.
    * @param {string} ownerId
    * @returns {Promise<Task[]>}
    */
-  // eslint-disable-next-line no-unused-vars
-  async findAllByOwner(ownerId) {
+  async findAllByOwner(_ownerId) {
     throw new Error('TaskRepository.findAllByOwner() must be implemented');
   }
 
   /**
-   * Busca una tarea por su ID.
+   * Finds a task by ID.
    * @param {string} id
    * @returns {Promise<Task|null>}
    */
-  // eslint-disable-next-line no-unused-vars
-  async findById(id) {
+  async findById(_id) {
     throw new Error('TaskRepository.findById() must be implemented');
   }
 
   /**
-   * Actualiza una tarea existente.
+   * Updates an existing task.
    * @param {Task} task
    * @returns {Promise<Task>}
    */
-  // eslint-disable-next-line no-unused-vars
-  async update(task) {
+  async update(_task) {
     throw new Error('TaskRepository.update() must be implemented');
   }
 
   /**
-   * Elimina una tarea por su ID.
+   * Deletes a task by ID.
    * @param {string} id
    * @returns {Promise<void>}
    */
-  // eslint-disable-next-line no-unused-vars
-  async deleteById(id) {
+  async deleteById(_id) {
     throw new Error('TaskRepository.deleteById() must be implemented');
   }
 }

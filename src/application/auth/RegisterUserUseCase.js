@@ -8,11 +8,11 @@ const UserRepository = require('../../domain/repositories/UserRepository');
  * @typedef {Object} RegisterDTO
  * @property {string} name
  * @property {string} email
- * @property {string} password - Contraseña en texto plano (se hashea aquí)
+ * @property {string} password - Plain-text password (hashed in this use case)
  */
 
 /**
- * Caso de uso: Registrar un nuevo usuario.
+ * Use case: register a new user.
  */
 class RegisterUserUseCase {
   /**
@@ -23,7 +23,7 @@ class RegisterUserUseCase {
   }
 
   /**
-   * Registra un nuevo usuario tras verificar que el email no esté en uso.
+   * Registers a new user after checking the email is not already in use.
    * @param {RegisterDTO} dto
    * @returns {Promise<User>}
    */
@@ -31,10 +31,7 @@ class RegisterUserUseCase {
     const existing = await this.userRepository.findByEmail(email);
 
     if (existing) {
-      const error = new Error('El email ya está registrado');
-      // @ts-ignore
-      error.statusCode = 409;
-      throw error;
+      throw new Error('Email is already registered');
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);

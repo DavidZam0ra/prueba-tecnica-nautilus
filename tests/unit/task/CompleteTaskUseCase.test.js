@@ -2,7 +2,15 @@ const CompleteTaskUseCase = require('../../../src/application/task/CompleteTaskU
 const Task = require('../../../src/domain/entities/Task');
 
 describe('CompleteTaskUseCase', () => {
-  /** @type {jest.Mocked<import('../../../src/domain/repositories/TaskRepository')>} */
+  /**
+   * @type {{
+   *   save: jest.Mock,
+   *   findAllByOwner: jest.Mock,
+   *   findById: jest.Mock,
+   *   update: jest.Mock,
+   *   deleteById: jest.Mock
+   * }}
+   */
   let mockTaskRepository;
   const ownerId = 'user-1';
 
@@ -16,7 +24,7 @@ describe('CompleteTaskUseCase', () => {
     };
   });
 
-  it('debe marcar la tarea como completada si el usuario es el propietario', async () => {
+  it('Should mark the task as completed if the user is the owner', async () => {
     const task = new Task({ id: 'task-1', title: 'Tarea', responsible: 'Dev', completed: false, createdAt: new Date(), ownerId });
     const completedTask = task.complete();
 
@@ -30,25 +38,24 @@ describe('CompleteTaskUseCase', () => {
     expect(result.completed).toBe(true);
   });
 
-  it('debe lanzar un error 404 si la tarea no existe', async () => {
+  it('Should throw an error 404 if the task does not exist', async () => {
     mockTaskRepository.findById.mockResolvedValue(null);
 
     const useCase = new CompleteTaskUseCase(mockTaskRepository);
 
     await expect(useCase.execute('no-existe', ownerId)).rejects.toMatchObject({
-      message: 'Tarea no encontrada',
-      statusCode: 404,
+      message: 'Task not found',
     });
   });
 
-  it('debe lanzar un error 403 si el usuario no es el propietario', async () => {
+  it('Should throw an error 403 if the user is not the owner', async () => {
     const task = new Task({ id: 'task-1', title: 'Tarea', responsible: 'Dev', completed: false, createdAt: new Date(), ownerId: 'otro-user' });
     mockTaskRepository.findById.mockResolvedValue(task);
 
     const useCase = new CompleteTaskUseCase(mockTaskRepository);
 
     await expect(useCase.execute('task-1', ownerId)).rejects.toMatchObject({
-      statusCode: 403,
+      message: 'You are not allowed to update this task',
     });
   });
 });

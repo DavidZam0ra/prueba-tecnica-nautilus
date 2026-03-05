@@ -5,13 +5,13 @@
  * @property {string} id
  * @property {string} name
  * @property {string} email
- * @property {string} password - Hash de la contraseña
+ * @property {string} password - Password hash
  * @property {Date} [createdAt]
  */
 
 /**
- * Entidad de dominio que representa un usuario.
- * No tiene dependencias externas ni lógica de persistencia.
+ * Domain entity representing a user.
+ * It has no external dependencies or persistence logic.
  */
 class User {
   /**

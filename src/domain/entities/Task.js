@@ -12,8 +12,8 @@
  */
 
 /**
- * Entidad de dominio que representa una tarea.
- * No tiene dependencias externas ni lógica de persistencia.
+ * Domain entity representing a task.
+ * It has no external dependencies or persistence logic.
  */
 class Task {
   /**
@@ -30,7 +30,7 @@ class Task {
   }
 
   /**
-   * Devuelve una nueva instancia de Task marcada como completada.
+   * Returns a new Task instance marked as completed.
    * @returns {Task}
    */
   complete() {
