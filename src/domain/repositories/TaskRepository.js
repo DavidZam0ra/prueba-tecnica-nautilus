@@ -13,7 +13,7 @@ const Task = require('../entities/Task');
 class TaskRepository {
   /**
    * Persists a new task.
-   * @param {Task} task
+   * @param {Task} _task
    * @returns {Promise<Task>}
    */
   async save(_task) {
@@ -22,7 +22,7 @@ class TaskRepository {
 
   /**
    * Returns all tasks for a user.
-   * @param {string} ownerId
+   * @param {string} _ownerId
    * @returns {Promise<Task[]>}
    */
   async findAllByOwner(_ownerId) {
@@ -31,7 +31,7 @@ class TaskRepository {
 
   /**
    * Finds a task by ID.
-   * @param {string} id
+   * @param {string} _id
    * @returns {Promise<Task|null>}
    */
   async findById(_id) {
@@ -40,7 +40,7 @@ class TaskRepository {
 
   /**
    * Updates an existing task.
-   * @param {Task} task
+   * @param {Task} _task
    * @returns {Promise<Task>}
    */
   async update(_task) {
@@ -49,7 +49,7 @@ class TaskRepository {
 
   /**
    * Deletes a task by ID.
-   * @param {string} id
+   * @param {string} _id
    * @returns {Promise<void>}
    */
   async deleteById(_id) {

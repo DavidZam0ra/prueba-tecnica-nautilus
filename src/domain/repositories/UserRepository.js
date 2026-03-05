@@ -13,7 +13,7 @@ const User = require('../entities/User');
 class UserRepository {
   /**
    * Persists a new user.
-   * @param {User} user
+   * @param {User} _user
    * @returns {Promise<User>}
    */
   async save(_user) {
@@ -22,7 +22,7 @@ class UserRepository {
 
   /**
    * Finds a user by email.
-   * @param {string} email
+   * @param {string} _email
    * @returns {Promise<User|null>}
    */
   async findByEmail(_email) {
@@ -31,7 +31,7 @@ class UserRepository {
 
   /**
    * Finds a user by ID.
-   * @param {string} id
+   * @param {string} _id
    * @returns {Promise<User|null>}
    */
   async findById(_id) {
