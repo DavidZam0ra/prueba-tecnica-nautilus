@@ -9,6 +9,7 @@ API REST para la gestión de tareas (to-do) desarrollada con **Node.js + Express
 - [Requisitos](#requisitos)
 - [Instalación](#instalación)
 - [Variables de entorno](#variables-de-entorno)
+- [MongoDB con Docker (local)](#mongodb-con-docker-local)
 - [Ejecutar la aplicación](#ejecutar-la-aplicación)
 - [Ejecutar los tests](#ejecutar-los-tests)
 - [Endpoints de la API](#endpoints-de-la-api)
@@ -57,6 +58,44 @@ PORT=3000
 MONGODB_URI=mongodb://localhost:27017/nautilus-tasks
 JWT_SECRET=cambia_esto_en_produccion
 JWT_EXPIRES_IN=1h
+```
+
+---
+
+## MongoDB con Docker (local)
+
+Para que las peticiones del backend funcionen en local, debes levantar MongoDB.
+
+Si no tienes MongoDB Server instalado en tu máquina, puedes usar Docker:
+
+```bash
+# Crear y levantar un contenedor de MongoDB en segundo plano
+docker run -d --name nautilus-mongo -p 27017:27017 mongo:7
+```
+
+Comprobar que está corriendo:
+
+```bash
+docker ps
+```
+
+Con este contenedor levantado, la variable del `.env` ya funciona:
+
+```env
+MONGODB_URI=mongodb://localhost:27017/nautilus-tasks
+```
+
+Parar o arrancar de nuevo el contenedor:
+
+```bash
+docker stop nautilus-mongo
+docker start nautilus-mongo
+```
+
+Eliminar el contenedor (opcional):
+
+```bash
+docker rm -f nautilus-mongo
 ```
 
 ---
